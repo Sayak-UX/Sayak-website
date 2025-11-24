@@ -100,6 +100,44 @@ document.addEventListener('DOMContentLoaded', () => {
       })
 });
 
+// PDF Modal Logic
+document.addEventListener('DOMContentLoaded', () => {
+    const pdfModal = document.getElementById('pdfModal');
+    const pdfCloseButton = document.querySelector('.pdf-close-button');
+    const pdfModalIframe = document.getElementById('pdfModalIframe');
+    const pdfModalTitle = document.getElementById('pdfModalTitle');
+    const portfolioItems = document.querySelectorAll('.portfolio-item[data-pdf-src]');
+
+    portfolioItems.forEach(item => {
+        item.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior if any
+
+            const pdfSrc = item.getAttribute('data-pdf-src');
+            const pdfTitle = item.getAttribute('data-pdf-title');
+
+            if (pdfSrc) {
+                pdfModalTitle.textContent = pdfTitle || 'PDF Document';
+                pdfModalIframe.src = pdfSrc;
+                pdfModal.style.display = 'flex'; // Show the modal
+            }
+        });
+    });
+
+    // Close the modal when the close button is clicked
+    pdfCloseButton.addEventListener('click', () => {
+        pdfModal.style.display = 'none';
+        pdfModalIframe.src = ''; // Clear iframe src to stop PDF from loading in background
+    });
+
+    // Close the modal when clicking outside of the modal content
+    window.addEventListener('click', (event) => {
+        if (event.target == pdfModal) {
+            pdfModal.style.display = 'none';
+            pdfModalIframe.src = ''; // Clear iframe src
+        }
+    });
+});
+
 let innerCursor = document.querySelector(".inner-cursor");
 let outerCursor = document.querySelector(".outer-cursor");
 

@@ -115,19 +115,15 @@
         <section id="crafted-experience" class="portfolio animate-on-load" style="--animation-delay: 0.4s;">
             <div class="container">
                 <div class="portfolio-grid">
-                    <div class="portfolio-item">
-                        <a href="bookstore.html">
-                            <img src="https://via.placeholder.com/600x400?text=Book+Store+App" alt="Book Store App Website">
-                            <h3>Book Store App Website</h3>
-                            <p>A UI/UX design project for a book store application.</p>
-                        </a>
+                    <div class="portfolio-item" data-pdf-src="Book store App website.pdf" data-pdf-title="Book Store App Website">
+                        <img src="https://via.placeholder.com/600x400?text=Book+Store+App" alt="Book Store App Website">
+                        <h3>Book Store App Website</h3>
+                        <p>A UI/UX design project for a book store application.</p>
                     </div>
-                    <div class="portfolio-item">
-                        <a href="banking_app.html">
-                            <img src="https://via.placeholder.com/600x400?text=Banking+App+HCI" alt="Banking App HCI Final">
-                            <h3>Banking App HCI Final</h3>
-                            <p>An HCI final exam project for a banking application.</p>
-                        </a>
+                    <div class="portfolio-item" data-pdf-src="Banking App HCI Final - Exam Sayak.pdf" data-pdf-title="Banking App HCI Final">
+                        <img src="https://via.placeholder.com/600x400?text=Banking+App+HCI" alt="Banking App HCI Final">
+                        <h3>Banking App HCI Final</h3>
+                        <p>An HCI final exam project for a banking application.</p>
                     </div>
                 </div>
             </div>
@@ -196,6 +192,15 @@
             </div>
         </section>
     </main>
+
+    <!-- PDF Modal Structure -->
+    <div id="pdfModal" class="pdf-modal">
+        <div class="pdf-modal-content">
+            <span class="pdf-close-button">&times;</span>
+            <h2 id="pdfModalTitle"></h2>
+            <iframe id="pdfModalIframe" src="" frameborder="0"></iframe>
+        </div>
+    </div>
 
     <div class="inner-cursor"></div>
     <div class="outer-cursor"></div>
