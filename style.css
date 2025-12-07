@@ -33,11 +33,10 @@
     --back-button-hover-bg: rgba(0, 0, 0, 0.1);
 }
 
-/* Removed --back-button-color, --back-button-border, --back-button-hover-bg as they are not needed for modal*/
-body.dark-mode {
+html[data-theme="dark"] {
     --text-color: #f0f0f0;
-    --background-color: #1a1a1a;
-    --header-bg: #2a2a2a;
+    --background-color: #000000;
+    --header-bg: #000000;
     --header-border: #3a3a3a;
     --nav-link-color: #ccc;
     --nav-link-hover-color: #fff;
@@ -51,9 +50,75 @@ body.dark-mode {
     --social-link-color: #f0f0f0;
     --social-link-hover-color: #fff;
     --social-divider-color: #3a3a3a;
-    --footer-bg: #2a2a2a;
+    --footer-bg: #000000;
     --footer-border: #3a3a3a;
     --footer-color: #ccc;
+    --icon-fill: #ffffff;
+}
+
+/* PDF Modal Styles */
+.pdf-modal {
+    display: none;
+    /* Hidden by default */
+    position: fixed;
+    /* Stay in place */
+    z-index: 1000;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* Full width */
+    height: 100%;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8);
+    /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+}
+
+.pdf-modal-content {
+    background-color: var(--background-color);
+    margin: auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 2000px;
+    /* Increased max-width to try and keep text on one line */
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.pdf-close-button {
+    color: var(--text-color);
+    align-self: flex-end;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.pdf-close-button:hover,
+.pdf-close-button:focus {
+    color: #ff6b6b;
+    /* Reddish color on hover */
+    text-decoration: none;
+}
+
+.pdf-modal-content h2 {
+    color: var(--h3-color);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.pdf-modal-content iframe {
+    flex-grow: 1;
+    /* Take up remaining space */
+    width: 100%;
+    border: none;
 }
 
 /* Basic Reset & Global Styles */
@@ -73,7 +138,7 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-family: "Open Sans", sans-serif;
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
@@ -83,7 +148,8 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 0px;
+    /* Removed right padding to shift more to the right edge */
 }
 
 /* Header */
@@ -109,7 +175,8 @@ body {
     top: unset;
     left: unset;
     z-index: auto;
-    margin-left: 15px; /* Add some space from the Download CV button */
+    margin-left: 15px;
+    /* Add some space from the Download CV button */
 }
 
 .logo {
@@ -127,7 +194,8 @@ body {
 }
 
 .nav {
-    margin-left: auto; /* Push the nav to the right */
+    margin-left: auto;
+    /* Push the nav to the right */
 }
 
 .nav ul {
@@ -158,23 +226,8 @@ body {
 }
 
 .nav ul li a.active {
-    color: #ff6b6b;
-    /* Red color for active link */
-    position: relative;
-}
-
-.nav ul li a.active::after {
-    content: '';
-    position: absolute;
-    right: -10px;
-    /* Position the dot to the right of the text */
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    background-color: #ff6b6b;
-    /* Red color for the dot */
-    border-radius: 50%;
+    color: var(--nav-link-hover-color);
+    /* Use hover color for active link */
 }
 
 /* Fixed Sidebar Navigation */
@@ -191,28 +244,51 @@ body {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    /* Make list items horizontal */
 }
 
 .fixed-sidebar-nav ul li {
-    margin-bottom: 10px;
+    margin-bottom: 0;
+    /* Remove vertical margin */
+    margin-right: 20px;
+    /* Add horizontal spacing between items */
 }
 
 .fixed-sidebar-nav ul li a {
     text-decoration: none;
-    color: #000;
-    font-family: "Georgia", "Times New Roman", serif;
+    color: black;
+    font-family: "Open Sans", sans-serif;
     font-size: 14px;
     font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 2px;
     transition: color 0.3s ease;
     display: block;
     padding: 5px 0;
-    position: relative; /* Needed for absolute positioning of the arrow */
-    overflow: hidden; /* Hide the arrow when it's outside the link area */
+    position: relative;
+    overflow: hidden;
+}
+
+.fixed-sidebar-nav ul li a::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background-color: orange;
+    /* Or a suitable color for both light/dark modes */
+    transition: width 0.3s ease;
+}
+
+.fixed-sidebar-nav ul li a:hover::before {
+    width: 100%;
 }
 
 .fixed-sidebar-nav ul li a .arrow {
     position: absolute;
-    right: -20px; /* Adjust to fully hide the arrow initially */
+    right: -20px;
     top: 50%;
     transform: translateY(-50%);
     color: orange;
@@ -221,20 +297,25 @@ body {
 }
 
 .fixed-sidebar-nav ul li a:hover {
-    color: orange; /* Ensure link color is orange on hover */
+    color: orange;
 }
 
 .fixed-sidebar-nav ul li a:hover .arrow {
-    right: 0px; /* Animate arrow to slide in right next to the text */
-    opacity: 1; /* Make the arrow visible */
+    right: 0px;
+    opacity: 1;
 }
 
-body.dark-mode .fixed-sidebar-nav ul li a {
-    color: #ccc;
+html[data-theme="dark"] .fixed-sidebar-nav ul li a {
+    color: white;
 }
 
-body.dark-mode .fixed-sidebar-nav ul li a:hover {
-    color: #fff;
+html[data-theme="dark"] .social-icon {
+    filter: invert(1) brightness(200%);
+    /* Make social icons white in dark mode */
+}
+
+html[data-theme="dark"] .fixed-sidebar-nav ul li a:hover {
+    color: orange;
 }
 
 .header-actions {
@@ -278,18 +359,87 @@ body.dark-mode .fixed-sidebar-nav ul li a:hover {
 
 /* Hero Section */
 .hero {
-    padding: 80px 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 
 .hero h1 {
-    font-size: 3.5em;
+    font-size: calc(5.0em + 4px);
     font-weight: 700;
-    margin-bottom: 30px;
+    margin-bottom: 0;
+    /* Adjusted for tight spacing */
     line-height: 1.2;
-    max-width: 900px;
+    max-width: 2000px;
+    white-space: normal;
     margin-left: auto;
     margin-right: auto;
+}
+
+.hero .container p {
+    /* Targeting the subtitle directly */
+    margin-top: 5px;
+    /* Tight spacing below title */
+    margin-bottom: 5px;
+    /* Tight spacing above next element */
+}
+
+/* Original .hero .story-content and related styles were incorrectly placed inside .hero. Moving them outside for correct styling. */
+
+/* Keeping story-content and story-text styles outside .hero, as they refer to a different section that was incorrectly nested under .hero. */
+.story-content {
+    padding-top: 20px;
+    padding-bottom: 80px;
+    display: flex;
+    align-items: flex-start;
+    gap: 80px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.story-text {
+    flex: 1;
+    min-width: 300px;
+    max-width: 600px;
+    text-align: left;
+}
+
+.story-image {
+    flex-shrink: 0;
+    margin-top: 0;
+}
+
+.story-image img {
+    width: 400px;
+    height: 500px;
+    object-fit: cover;
+    border-radius: 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+    .story-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .story-text {
+        min-width: unset;
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .story-image img {
+        width: 80%;
+        height: auto;
+    }
 }
 
 .status {
@@ -341,10 +491,15 @@ body.dark-mode .fixed-sidebar-nav ul li a:hover {
     background-color: var(--portfolio-item-bg);
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: var(--portfolio-item-shadow);
-    backdrop-filter: blur(10px);
-    border: var(--portfolio-item-border);
+    box-shadow: none;
+    /* Removed box-shadow */
+    backdrop-filter: none;
+    /* Removed backdrop-filter */
+    border: none;
+    /* Removed border */
     transition: all 0.3s ease;
+    text-decoration: none;
+    display: block;
 }
 
 .portfolio-item:hover {
@@ -356,14 +511,18 @@ body.dark-mode .fixed-sidebar-nav ul li a:hover {
 
 .portfolio-item img {
     width: 100%;
-    height: 250px;
+    height: auto;
+    /* Changed from fixed height to auto */
     object-fit: cover;
     display: block;
 }
 
 .portfolio-item h3 {
     font-size: 1.5em;
-    margin: 20px 20px 5px;
+    margin: 0;
+    /* Removed margin */
+    padding-top: 20px;
+    /* Added padding for spacing */
     color: var(--h3-color);
     text-align: center;
 }
@@ -371,7 +530,10 @@ body.dark-mode .fixed-sidebar-nav ul li a:hover {
 .portfolio-item p {
     font-size: 0.95em;
     color: var(--p-color);
-    margin: 0 20px 20px;
+    margin: 0;
+    /* Removed margin */
+    padding-bottom: 20px;
+    /* Added padding for spacing */
     text-align: center;
 }
 
@@ -442,27 +604,80 @@ body.dark-mode .fixed-sidebar-nav ul li a:hover {
 }
 
 .button-85:hover {
-    background-color: #555;
-    /* Lighter grey on hover */
-    color: #fff;
-    /* White text on hover */
+    background-color: #FFD700;
+    /* Yellow color on hover */
+    color: #000;
+    /* Black text on hover */
 }
 
-.resume-button {
-    color: #39FF14;
-    /* Line green color */
+/* Download Resume Button Styles */
+.download-resume-button {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
+    /* Fully rounded corners */
+    background-color: white;
+    /* White background */
+    border: 2px solid black;
+    /* Black border */
+    color: black;
+    /* Black text color */
+    text-decoration: none;
+    font-family: "Work Sans", sans-serif !important;
+    font-size: 16px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
+
+.download-resume-button:hover {
+    background-color: #d0ffc6;
+    /* Slightly darker green on hover */
+    border-color: #333;
+    /* Slightly darker black on hover */
+}
+
+html[data-theme="dark"] .download-resume-button {
+    background-color: #333;
+    /* Dark background */
+    border: 2px solid white;
+    /* White border */
+    color: white;
+    /* White text color */
+}
+
+html[data-theme="dark"] .download-resume-button:hover {
+    background-color: #555;
+    /* Slightly lighter dark background on hover */
+    border-color: #ccc;
+    /* Slightly darker white on hover */
+}
+
 
 .marcellus-sc-heading {
     font-family: "Marcellus SC", serif;
     font-weight: 400;
     font-style: normal;
-    font-size: 16px;
+    font-size: 20px;
+}
+
+.marcellus-sc-text {
+    font-family: "Marcellus SC", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.hero .container p,
+.hero-intro-text {
+    font-size: 32px;
 }
 
 .hero-intro-text {
     margin-top: 10px;
-    /* Adjust as needed for desired spacing */
+    margin-bottom: 20px;
+    /* Added margin-bottom to control spacing below intro text */
 }
 
 .left-align-text {
@@ -601,13 +816,13 @@ body.dark-mode .fixed-sidebar-nav ul li a:hover {
 }
 
 .story-image img {
-    width: 300px;
-    /* Set a fixed width for the image */
-    height: 450px;
-    /* Set a fixed height for the image */
+    width: 400px;
+    /* Reduced width for the image */
+    height: 500px;
+    /* Reduced height for the image */
     object-fit: cover;
     /* Ensure the image covers the area without distortion */
-    border-radius: 8px;
+    border-radius: 0;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
@@ -622,8 +837,8 @@ body.dark-mode .fixed-sidebar-nav ul li a:hover {
     }
 
     .story-image img {
-        width: 100%;
-        /* Make image responsive on smaller screens */
+        width: 80%;
+        /* Make image responsive on smaller screens, adjusted to 80% */
         height: auto;
     }
 }
@@ -989,8 +1204,10 @@ html {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px; /* Adjust size as needed */
-    height: 36px; /* Adjust size as needed */
+    width: 36px;
+    /* Adjust size as needed */
+    height: 36px;
+    /* Adjust size as needed */
     color: var(--icon-fill);
     transition: color 0.3s ease;
 }
@@ -999,137 +1216,150 @@ html {
     color: var(--icon-fill-hover);
 }
 
-.sun-and-moon > :is(.moon, .sun, .sun-beams) {
-  transform-origin: center;
+.sun-and-moon> :is(.moon, .sun, .sun-beams) {
+    transform-origin: center;
 }
 
-.sun-and-moon > :is(.moon, .sun) {
-  fill: var(--icon-fill);
+.sun-and-moon> :is(.moon, .sun) {
+    fill: var(--icon-fill);
 }
 
-.theme-toggle:is(:hover, :focus-visible) > .sun-and-moon > :is(.moon, .sun) {
-  fill: var(--icon-fill-hover);
+.theme-toggle:is(:hover, :focus-visible)>.sun-and-moon> :is(.moon, .sun) {
+    fill: var(--icon-fill-hover);
 }
 
-.sun-and-moon > .sun-beams {
-  stroke: var(--icon-fill);
-  stroke-width: 2px;
+.sun-and-moon>.sun-beams {
+    stroke: var(--icon-fill);
+    stroke-width: 2px;
 }
 
-.theme-toggle:is(:hover, :focus-visible) .sun-and-moon > .sun-beams {
-  stroke: var(--icon-fill-hover);
+.theme-toggle:is(:hover, :focus-visible) .sun-and-moon>.sun-beams {
+    stroke: var(--icon-fill-hover);
 }
 
-[data-theme="dark"] .sun-and-moon > .sun {
-  transform: scale(1.75);
+[data-theme="dark"] .sun-and-moon>.sun {
+    transform: scale(1.75);
 }
 
-[data-theme="dark"] .sun-and-moon > .sun-beams {
-  opacity: 0;
+[data-theme="dark"] .sun-and-moon>.sun-beams {
+    opacity: 0;
 }
 
-[data-theme="dark"] .sun-and-moon > .moon > circle {
-  transform: translateX(-7px);
+[data-theme="dark"] .sun-and-moon>.moon>circle {
+    transform: translateX(-7px);
 }
 
 @supports (cx: 1) {
-  [data-theme="dark"] .sun-and-moon > .moon > circle {
-    cx: 17;
-    transform: translateX(0);
-  }
+    [data-theme="dark"] .sun-and-moon>.moon>circle {
+        cx: 17;
+        transform: translateX(0);
+    }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .sun-and-moon > .sun {
-    transition: transform .5s var(--ease-elastic-3);
-  }
-
-  .sun-and-moon > .sun-beams {
-    transition: transform .5s var(--ease-elastic-4), opacity .5s var(--ease-3);
-  }
-
-  .sun-and-moon .moon > circle {
-    transition: transform .25s var(--ease-out-5);
-  }
-
-  @supports (cx: 1) {
-    .sun-and-moon .moon > circle {
-      transition: cx .25s var(--ease-out-5);
+    .sun-and-moon>.sun {
+        transition: transform .5s var(--ease-elastic-3);
     }
-  }
 
-  [data-theme="dark"] .sun-and-moon > .sun {
-    transition-timing-function: var(--ease-3);
-    transition-duration: .25s;
-    transform: scale(1.75);
-  }
+    .sun-and-moon>.sun-beams {
+        transition: transform .5s var(--ease-elastic-4), opacity .5s var(--ease-3);
+    }
 
-  [data-theme="dark"] .sun-and-moon > .sun-beams {
-    transition-duration: .15s;
-    transform: rotateZ(-25deg);
-  }
+    .sun-and-moon .moon>circle {
+        transition: transform .25s var(--ease-out-5);
+    }
 
-  [data-theme="dark"] .sun-and-moon > .moon > circle {
-    transition-duration: .5s;
-    transition-delay: .25s;
-  }
+    @supports (cx: 1) {
+        .sun-and-moon .moon>circle {
+            transition: cx .25s var(--ease-out-5);
+        }
+    }
+
+    [data-theme="dark"] .sun-and-moon>.sun {
+        transition-timing-function: var(--ease-3);
+        transition-duration: .25s;
+        transform: scale(1.75);
+    }
+
+    [data-theme="dark"] .sun-and-moon>.sun-beams {
+        transition-duration: .15s;
+        transform: rotateZ(-25deg);
+    }
+
+    [data-theme="dark"] .sun-and-moon>.moon>circle {
+        transition-duration: .5s;
+        transition-delay: .25s;
+    }
 }
 
-/* PDF Modal Styles */
-.pdf-modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1000; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
-    justify-content: center;
-    align-items: center;
-}
-
-.pdf-modal-content {
-    background-color: var(--background-color);
-    margin: 5% auto; /* 5% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-    height: 90%;
-    max-width: 1000px;
-    border-radius: 10px;
+.yellow-stroke {
+    clip-path: url(#YellowSvgPath);
     position: relative;
-    display: flex;
-    flex-direction: column;
+    background: transparent;
+    /* Changed to transparent, so text is visible */
+    margin: 0;
+    /* Remove excessive margin */
+    transform: scale(1);
+    /* Adjusted scale to better fit the text */
+    transform-origin: left top;
+    display: inline-block;
+    /* Allow it to wrap the h1 content */
 }
 
-.pdf-modal-content h2 {
-    color: var(--h3-color);
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.pdf-close-button {
-    color: var(--text-color);
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    font-size: 35px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.pdf-close-button:hover,
-.pdf-close-button:focus {
-    color: #bbb;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#pdfModalIframe {
-    flex-grow: 1;
+#yellow-stroke {
     width: 100%;
-    border: none;
-    background-color: var(--background-color); /* Ensure iframe background matches modal */
+    position: absolute;
+    top: -10px;
+    /* Adjusted to fit behind the text */
+    left: -10px;
+    /* Adjusted to fit behind the text */
+    stroke-dasharray: 1800;
+    stroke-dashoffset: -1800;
+    animation: stroke 1s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+/* animation */
+@keyframes stroke {
+    from {
+        stroke-dashoffset: -1800;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.typewriter-effect {
+    display: inline-block;
+    /* Ensures the cursor is next to the text */
+    font-family: "Work Sans", monospace;
+    font-size: 28px;
+    /* Adjusted font size */
+    font-weight: 600;
+    color: #ff0dbf;
+    /* Default Neon Green */
+    border-right: .15em solid currentColor;
+    /* The blinking cursor matches text color */
+    white-space: nowrap;
+    /* Keeps the text on a single line */
+    margin: 0 auto;
+    /* Centers the text */
+    letter-spacing: .1em;
+    /* Spacing between characters */
+    animation: blink-caret .75s step-end infinite;
+}
+
+/* Blinking cursor effect */
+@keyframes blink-caret {
+
+    from,
+    to {
+        border-color: transparent
+    }
+
+    50% {
+        border-color: currentColor;
+    }
 }
